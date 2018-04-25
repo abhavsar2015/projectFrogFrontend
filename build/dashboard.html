@@ -1,0 +1,138 @@
+<body>
+<main ng-controller="dashboardController">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h1>Project Frog Challenege
+                </h1>
+            </div>
+            <div class="col-md-6" style="margin-top: 10px" align="center">
+                <button ng-click="logout()" class="btn btn-primary">Logout</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col-lg-6">
+                <div class="input-group ">
+                    <select class="custom-select rounded-0 form-control rounded-0" placeholder="Class Selection" ng-model="classValue" ng-options="class.id as class.name for class in classe" name="certification" id="inlineFormCustomSelect" style=" height:39px" ng-required="true">
+                    </select>
+                    <span class="input-group-btn">
+                                <button ng-click="searchByClass()" class="btn btn-primary" >Class Search</button>
+                            </span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="lastName" ng-model="lastName" placeholder="Last Name">
+                    <span class="input-group-btn">
+                                <button ng-click="searchByLastName()" class="btn btn-primary" >Search</button>
+                            </span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 7px">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="firstName" ng-model="firstName" placeholder="First Name">
+                    <span class="input-group-btn">
+                            <button  ng-click="searchByFirstName()" class="btn btn-primary" >Search</button>
+                            </span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="studentId" placeholder="Student Id">
+                    <span class="input-group-btn">
+                                <button data-ng-click="searchById()" name="ById" class="btn btn-primary" >Search</button>
+                            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 10px">
+        <div class="table-responsive">
+            <div class="pull-left view-left">
+                <label>View</label>
+                <select ng-model="viewby">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
+                    <option>40</option>
+                    <option>50</option>
+                </select> records at a time.
+            </div>
+            <div class="input-group col-md-3 pull-right mb15">
+                <input type="text" ng-model="search" class="form-control" placeholder="Search" />
+                <span class="input-group-addon">
+                                                                                        <i class="glyphicon glyphicon-search"></i>
+                                                                                </span>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="u-th">No.
+                    </th>
+                    <th class="u-th">Student Id
+                    </th>
+                    <th class="u-th">First Name
+                    </th>
+                    <th class="u-th">Last Name
+                    </th>
+                    <th class="u-th">Class
+                    </th>
+                    <th class="u-th">Birth Date
+                    </th>
+                    <th class="u-th">Subject 1
+                    </th>
+                    <th class="u-th">Subject 2
+                    </th>
+                    <th class="u-th">Subject 3
+                    </th>
+                    <th>Percentage
+                    </th>
+                    <th>Rank
+                    </th>
+                    <th ng-if="classShow">Delete
+                    </th>
+                    <th ng-if="classShow">Update
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!studentDetails">
+                    <td class="noRecordFound" colspan="11">No Record Found
+                    <td>
+                </tr>
+                <tr dir-paginate="part in studentDetails|orderBy:-sorting|filter:search|itemsPerPage:viewby" pagination-id="advSearch">
+
+                    <td class="u-th">{{$index+1}}</td>
+                    <td class="u-th">{{part.studentId}}</td>
+                    <td class="u-th"><input type="text" ng-disabled="!classShow" id="first{{$index+1}}" value="{{part.firstName}}" /></td>
+                    <td class="u-th"><input type="text" ng-disabled="!classShow" id="last{{$index+1}}" value="{{part.lastName}}" /></td>
+                    <td class="u-th"><input type="text" ng-disabled="!classShow" id="class{{$index+1}}" value="{{part.classDetails}}" /></td>
+                    <td class="u-th">{{part.dateOfBirth}}</td>
+                    <td class="u-th"><input type="text" ng-disabled="!classShow" id="sub1{{$index+1}}" value="{{part.scoreCard.subject1}}" /></td>
+                    <td class="u-th"><input type="text" ng-disabled="!classShow" id="sub2{{$index+1}}" value="{{part.scoreCard.subject2}}" /></td>
+                    <td class="u-th"><input type="text" ng-disabled="!classShow" id="sub3{{$index+1}}" value="{{part.scoreCard.subject3}}" /></td>
+                    <td class="u-th">{{getPercentage(part.scoreCard)}}</td>
+                    <td class="u-th">{{$index+1}}</td>
+                    <td class="u-th" ng-if="classShow"><button ng-click="deleteById(part.studentId)">Delete</button></td>
+                    <td class="u-th" ng-if="classShow"><button ng-click="update(part,$index+1)">Update</button></td>
+                </tr>
+                </tbody>
+            </table>
+            <dir-pagination-controls pagination-id="advSearch" max-size="5" direction-links="true" boundary-links="true">
+            </dir-pagination-controls>
+        </div>
+    </div>
+
+</main>
+</body>

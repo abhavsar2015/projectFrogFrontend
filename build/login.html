@@ -1,0 +1,16 @@
+<body>
+<main ng-controller="loginController">
+
+    <div class="modal-dialog">
+        <div class="loginmodal-container">
+            <h1>Login to Your Account</h1><br>
+            <span class="f-error" ng-show="error" ng-cloak> {{errorDescriptio}}</span>
+            <form>
+                <input type="text" name="user" ng-model="userName" placeholder="Username">
+                <input type="password" name="pass" ng-model="passWord" placeholder="Password">
+                <input type="submit" name="login" ng-click="submit()" class="login loginmodal-submit" value="Login" />
+            </form>
+        </div>
+    </div>
+</main>
+</body>
